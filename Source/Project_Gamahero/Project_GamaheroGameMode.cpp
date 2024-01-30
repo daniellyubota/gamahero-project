@@ -6,7 +6,6 @@
 
 AProject_GamaheroGameMode::AProject_GamaheroGameMode()
 {
-	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPerson/Blueprints/Character/GamaheroChar_BP"));
 	if (PlayerPawnBPClass.Class != NULL)
 	{

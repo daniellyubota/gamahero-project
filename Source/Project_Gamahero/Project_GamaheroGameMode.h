@@ -25,7 +25,7 @@ public:
 		void PauseMenu();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAcess = "true"))
-	AActor* ActiveCheckpoint;
+		AActor* ActiveCheckpoint;
 
 };
 

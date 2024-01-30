@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 public class Project_GamaheroEditorTarget : TargetRules
 {
-	public Project_GamaheroEditorTarget(TargetInfo Target) : base(Target)
-	{
-		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;
-		ExtraModuleNames.Add("Project_Gamahero");
-	}
+    public Project_GamaheroEditorTarget(TargetInfo Target) : base(Target)
+    {
+        Type = TargetType.Editor;
+        DefaultBuildSettings = BuildSettingsVersion.V2;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;
+        ExtraModuleNames.Add("Project_Gamahero");
+    }
 }

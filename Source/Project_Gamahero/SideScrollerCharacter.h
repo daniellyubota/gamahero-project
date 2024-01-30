@@ -11,25 +11,21 @@ UCLASS()
 class PROJECT_GAMAHERO_API ASideScrollerCharacter : public ACharacter
 {
 	GENERATED_BODY()
-	
+
 public:
-	// Sets default values for this character's properties
+
 	ASideScrollerCharacter();
 
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
+
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
 
-	//UPROPERTY(VisibleAnywhere)
-		//class UCameraComponent* SideViewCamera;
 
 protected:
 
@@ -69,27 +65,27 @@ public:
 		bool IsHoldingDash = false;
 private:
 	UPROPERTY(EditAnywhere)
-	float DashForce = 2500.0f;
+		float DashForce = 2500.0f;
 	UPROPERTY(EditAnywhere)
 		float WallJumpForce = 1000.0f;
 	UPROPERTY(EditAnywhere)
-	float DashDistance = 500.0f;
+		float DashDistance = 500.0f;
 	UPROPERTY(EditAnywhere)
-	float DashCooldown = 2.0f;
-		float DashTimer;
+		float DashCooldown = 2.0f;
+	float DashTimer;
 	UPROPERTY(EditAnywhere)
 		float LongDashForce = 2000.0f;
 	UPROPERTY(EditAnywhere)
 		float LongDashDistance = 1000.0f;
 	UPROPERTY(EditAnywhere)
-	float HowMuchToSlow = 0.6f;
+		float HowMuchToSlow = 0.6f;
 	UPROPERTY(EditAnywhere)
-	float OverHowLong = 2.0f;
+		float OverHowLong = 2.0f;
 	UPROPERTY(EditAnywhere)
 		float HowMuchToWait = 2.0f;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		bool IsSliding = false;
-	
+
 
 	float TimeDilation = 0.0f;
 	float TimeCounter = 0.0f;
@@ -100,5 +96,5 @@ private:
 	UMeshComponent* Indicator;
 	UMaterialInterface* Material;
 	UMaterialInstanceDynamic* DynamicMaterial;
-	
+
 };

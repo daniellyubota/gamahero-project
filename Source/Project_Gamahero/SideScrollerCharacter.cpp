@@ -1,7 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "SideScrollerCharacter.h"
+﻿#include "SideScrollerCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -28,16 +25,16 @@ ASideScrollerCharacter::ASideScrollerCharacter()
 	GetCharacterMovement()->GroundFriction = 3.0f;
 	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
 	GetCharacterMovement()->MaxFlySpeed = 600.0f;
-	
-	
+
+
 
 }
 
 void ASideScrollerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	
+
+
 	Indicator = Cast<UMeshComponent>(GetDefaultSubobjectByName(TEXT("Plane")));
 	Material = Indicator->GetMaterial(0);
 	DynamicMaterial = Indicator->CreateDynamicMaterialInstance(0, Material);
@@ -63,10 +60,10 @@ void ASideScrollerCharacter::BeginPlay()
 
 void ASideScrollerCharacter::Tick(float DeltaTime)
 {
-	
+
 	Super::Tick(DeltaTime);
 	TempPos = GetActorLocation();
-	
+
 	if (GetCharacterMovement()->MovementMode == MOVE_Walking && !IsDashing && !IsLongDashing && !IsHoldingDash && HasReleasedDash)
 	{
 		ASideScrollerCharacter::GetCharacterMovement()->GroundFriction = 3.0f;
@@ -88,12 +85,12 @@ void ASideScrollerCharacter::Tick(float DeltaTime)
 			CanHoldLongDash = true;
 			CanLongDash = false;
 			StartCooldown = false;
-			
+
 		}
 	}
 	if (IsDashing == true)
 	{
-		
+
 		if (FVector::Distance(ActorLocation, TempPos) >= DashDistance || GetVelocity().Y == 0.0f)
 		{
 			GetCharacterMovement()->SetMovementMode(MOVE_Falling);
@@ -101,9 +98,9 @@ void ASideScrollerCharacter::Tick(float DeltaTime)
 			GetCharacterMovement()->Velocity.Y = GetCharacterMovement()->Velocity.Y / 6;
 
 			ASideScrollerCharacter::GetCharacterMovement()->GroundFriction = 3.0f;
-			
+
 			CanMove = true;
-			
+
 			IsDashing = false;
 			DashTimer = DashCooldown;
 			StartCooldown = true;
@@ -119,11 +116,11 @@ void ASideScrollerCharacter::Tick(float DeltaTime)
 			GetCharacterMovement()->Velocity.Y = GetCharacterMovement()->Velocity.Y / 6;
 
 			ASideScrollerCharacter::GetCharacterMovement()->GroundFriction = 3.0f;
-			
+
 			CanMove = true;
-			
+
 			IsLongDashing = false;
-			
+
 			DashTimer = DashCooldown;
 			StartCooldown = true;
 			HasTouchedGround = false;
@@ -141,7 +138,7 @@ void ASideScrollerCharacter::Tick(float DeltaTime)
 		Indicator->SetWorldRotation(PlayerRot);
 		if (TimeDilation > 1 - HowMuchToSlow)
 		{
-			
+
 			TimeCounter += DeltaTime;
 			DynamicMaterial->SetScalarParameterValue("Opacity", TimeCounter / OverHowLong);
 			TimeDilation = 1 - ((HowMuchToSlow * TimeCounter) / OverHowLong);
@@ -167,7 +164,7 @@ void ASideScrollerCharacter::Tick(float DeltaTime)
 			StartCooldown = true;
 		}
 	}
-	
+
 	FVector start1 = Linecast1->GetComponentLocation();
 	FVector end1 = start1 + (GetActorForwardVector() * 20.0f);
 	FVector start2 = Linecast2->GetComponentLocation();
@@ -184,14 +181,14 @@ void ASideScrollerCharacter::Tick(float DeltaTime)
 	{
 		IsSliding = true;
 		GetCharacterMovement()->Velocity.Z = -200;
-		}
+	}
 	else
 	{
 		IsSliding = false;
 		GetCharacterMovement()->GravityScale = 3;
 	}
 	IsMoving = false;
-	
+
 }
 
 void ASideScrollerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -207,7 +204,7 @@ void ASideScrollerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 	PlayerInputComponent->BindAction("WallJump", IE_Pressed, this, &ASideScrollerCharacter::WallJump);
 	PlayerInputComponent->BindAction("LongDash", IE_Released, this, &ASideScrollerCharacter::LongDashing);
 	PlayerInputComponent->BindAction("LongDash", IE_Pressed, this, &ASideScrollerCharacter::ChargeLongDash);
-	
+
 
 
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASideScrollerCharacter::MoveRight);
@@ -217,7 +214,7 @@ void ASideScrollerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 }
 void ASideScrollerCharacter::ResetGame()
 {
-	
+
 	AProject_GamaheroGameMode* GameMode = Cast<AProject_GamaheroGameMode>(GetWorld()->GetAuthGameMode());
 	GameMode->Restart();
 }
@@ -232,34 +229,34 @@ void ASideScrollerCharacter::PauseMenu()
 
 void ASideScrollerCharacter::MoveRight(float Value)
 {
-	
+
 	if (CanMove)
 	{
 		if (IsSliding)
 		{
 			SlideI += 1;
-			}
+		}
 		if (SlideI == 0 || SlideI > 50 || !IsSliding)
 		{
 			SlideI = 0;
 			AddMovementInput(FVector(0.0f, 1.0f, 0.0f), Value);
 			IsMoving = true;
-			}
+		}
 	}
 
 
 }
 void ASideScrollerCharacter::WallJump()
 {
-		if (IsSliding && GetCharacterMovement()->MovementMode != MOVE_Walking)
-		{
-			GetCharacterMovement()->StopMovementImmediately();
-			FRotator ActorRotation = GetActorRotation();
-			ActorRotation.Yaw = ActorRotation.Yaw + 180;
-			SetActorRotation(ActorRotation);
-			LaunchCharacter((GetActorForwardVector() + (GetActorUpVector()*1.5)) * WallJumpForce, false, false);
-			JumpSound();
-		}
+	if (IsSliding && GetCharacterMovement()->MovementMode != MOVE_Walking)
+	{
+		GetCharacterMovement()->StopMovementImmediately();
+		FRotator ActorRotation = GetActorRotation();
+		ActorRotation.Yaw = ActorRotation.Yaw + 180;
+		SetActorRotation(ActorRotation);
+		LaunchCharacter((GetActorForwardVector() + (GetActorUpVector() * 1.5)) * WallJumpForce, false, false);
+		JumpSound();
+	}
 }
 void ASideScrollerCharacter::Dashing()
 {
@@ -273,7 +270,7 @@ void ASideScrollerCharacter::Dashing()
 		APlayerController* PlayerController = (APlayerController*)GetWorld()->GetFirstPlayerController();
 		PlayerController->DeprojectMousePositionToWorld(MouseLocation, MouseDirection);
 		ActorLocation = this->GetActorLocation();
-		
+
 		MouseDirPlusLoc = FMath::LinePlaneIntersection(MouseLocation, MouseLocation + MouseDirection, FVector::Zero(), FVector::ForwardVector);
 		NormVector = UKismetMathLibrary::GetDirectionUnitVector(ActorLocation, MouseDirPlusLoc);
 		ASideScrollerCharacter::GetCharacterMovement()->StopMovementImmediately();
@@ -300,7 +297,7 @@ void ASideScrollerCharacter::Dashing()
 
 void ASideScrollerCharacter::LongDashing()
 {
-	
+
 	if (CanLongDash && IsHoldingDash && !HasReleasedDash)
 	{
 		CanMove = false;
@@ -342,7 +339,7 @@ void ASideScrollerCharacter::LongDashing()
 
 		LongDashSound();
 	}
-	else if(!CanLongDash && IsHoldingDash && !HasReleasedDash)
+	else if (!CanLongDash && IsHoldingDash && !HasReleasedDash)
 	{
 		TimeCounter = 0;
 		TimeCounter2 = 0;
@@ -358,7 +355,7 @@ void ASideScrollerCharacter::LongDashing()
 		DynamicMaterial->SetVectorParameterValue("Color", FLinearColor::Yellow);
 
 	}
-	
+
 }
 
 
@@ -374,13 +371,6 @@ void ASideScrollerCharacter::ChargeLongDash()
 		IsHoldingDash = true;
 	}
 }
-
-void ASideScrollerCharacter::RestartLevel()
-{
-
-}
-
-
 
 
 void ASideScrollerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

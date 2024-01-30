@@ -10,13 +10,11 @@ UCLASS()
 class PROJECT_GAMAHERO_API ACheckpoint_BP : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
+
+public:
 	ACheckpoint_BP();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UFUNCTION()
 		void Activate();
@@ -26,8 +24,7 @@ protected:
 			int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 
-public:	
-	// Called every frame
+public:
 	virtual void Tick(float DeltaTime) override;
 
 };
